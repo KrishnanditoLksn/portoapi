@@ -1,16 +1,21 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
-import { ContentController } from './content/content.controller';
-import { ContentModule } from './content/content.module';
-import { CategoryController } from './category/category.controller';
-import { CategoryModule } from './category/category.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user/entity/user.entity';
 
 @Module({
-  imports: [UserModule, ContentModule, CategoryModule],
-  controllers: [AppController, UserController, ContentController, CategoryController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'myportoapi_db',
+      entities: [User],
+      synchronize: true,
+    }),
+    UserModule
+  ],
 })
-export class AppModule {}
+export class AppModule { }
