@@ -15,7 +15,6 @@ export class UpdateUserDto extends PartialType(UserDto) {
     @IsString()
     email: string
 
-    @IsNotEmpty({ message: "Password Must not empty" })
     @Matches(passwordRegEx, {
         message: `Password must contain Minimum 8 and maximum 20 characters, 
         at least one uppercase letter, 
