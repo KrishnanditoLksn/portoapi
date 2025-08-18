@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
 import { UserDto } from '../dto/user_dto';
 import { UpdateUserDto } from '../dto/update_user_dto';
+import { UserResponseDto } from '../dto/user_response_dto';
 
 @Injectable()
 export class UserService {
@@ -26,22 +27,29 @@ export class UserService {
         return this.userRepository.save(user)
     }
 
+    async findOneUser(id: number): Promise<UserResponseDto> {
+        const data = await this.userRepository.findOne({ where: { id } });
+        if (!data) {
+            throw new NotFoundException(
+                {
+                    statusCode: 404,
+                    message: "User Tidak Ditemukan"
+                }
+            );
+        }
+        return data;
+    }
 
     getUserId(id: number): Promise<User | null> {
         return this.userRepository.findOneBy({ id });
     }
 
-
-    deleteUserAccount(id: number): Promise<{ affected?: number | null }> {
-        return this.userRepository.delete(id);
+    async deleteUser(id: number) {
+        const data = await this.findOneUser(id);
+        return this.userRepository.delete(data);
     }
 
-    updateUserAccount(id: number, userDto: UpdateUserDto): Promise<User | null> {
-        const user: User = new User();
-        user.username = userDto.username
-        user.password = userDto.password
-        user.email = userDto.email
-        user.id = id
-        return this.userRepository.save(user)
+    async updateUserAccount(id: number, userDto: UpdateUserDto) {
+        return await this.userRepository.update(id, userDto);
     }
 }
