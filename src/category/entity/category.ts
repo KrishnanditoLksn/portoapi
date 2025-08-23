@@ -8,7 +8,8 @@ export class Category {
     id: number
 
     @Column()
-    name_category: string
+    @IsNotEmpty()
+    nameCategory: string
 
     @CreateDateColumn()
     created_at: Date;
