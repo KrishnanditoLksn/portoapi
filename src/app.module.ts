@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/entity/user.entity';
+import { Category } from './category/entity/category';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -12,10 +14,11 @@ import { User } from './user/entity/user.entity';
       username: 'root',
       password: '',
       database: 'myportoapi_db',
-      entities: [User],
+      entities: [User, Category],
       synchronize: true,
     }),
-    UserModule
+    UserModule,
+    CategoryModule
   ],
 })
 export class AppModule { }
