@@ -20,6 +20,10 @@ export class CategoryService {
     }
 
 
+    async getPostCategory() {
+        return await this.categoryRepository.find()
+    }
+
     async findOnePost(id: number): Promise<CreateCategoryResponseDto | null> {
         return await this.categoryRepository.findOne({ where: { id } });
     }
