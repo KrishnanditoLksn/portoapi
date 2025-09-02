@@ -9,7 +9,7 @@ export class AuthController {
 
     @Post('/register')
     async registerUser(@Body() userDto: UserDto, @Res() res: express.Response) {
-        if (userDto.email == null || userDto.password == null || userDto.username == null) {
+        if (userDto.email == " " || userDto.password == " " || userDto.username == " ") {
             return res.status(HttpStatus.BAD_REQUEST).json({
                 status: 500,
                 message: "Salah satu kolom perlu diisi"
