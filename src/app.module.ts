@@ -6,6 +6,8 @@ import { Category } from './category/entity/category';
 import { CategoryModule } from './category/category.module';
 import { env } from 'process';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Content } from './content/entity/content';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -22,12 +24,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get<string>("DATABASE_USERNAME"),
         password: configService.get<string>("DATABASE_PASSWORD"),
         database: configService.get<string>("DATABASE_NAME"),
-        entities: [User, Category],
+        entities: [User, Category, Content],
         synchronize: true,
       })
     }),
     UserModule,
-    CategoryModule
+    CategoryModule,
+    ContentModule
   ],
 })
 export class AppModule { }
